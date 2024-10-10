@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay IFSC Code API</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        form {
+            background: white;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e2e2e2;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="ifscForm">
+        <h2>Check IFSC Code</h2>
+        <input type="text" id="ifscCode" placeholder="Enter IFSC Code" required>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="result" id="result" style="display: none;"></div>
+
+    <script>
+        const form = document.getElementById('ifscForm');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            const ifscCode = document.getElementById('ifscCode').value;
+
+            try {
+                const response = await axios.get(`https://ifsc.razorpay.com/${ifscCode}`);
+                const data = response.data;
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `
+                    <h4>IFSC Code: ${data.IFSC}</h4>
+                    <p>Bank: ${data.BANK}</p>
+                    <p>Branch: ${data.BRANCH}</p>
+                    <p>Address: ${data.ADDRESS}</p>
+                `;
+            } catch (error) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = `<p>Error: ${error.response ? error.response.data.message : error.message}</p>`;
+            }
+        });
+    </script>
+</body>

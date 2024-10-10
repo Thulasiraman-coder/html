@@ -1,0 +1,15 @@
+<input id="one">
+<input id="two">
+<button onclick="addpandra()">Add</button>
+<p id="result">Result</p>
+<script>
+    var one = document.getElementById("one");
+    var two = document.getElementById("two");
+    var result = document.getElementById("result");
+    function addpandra(){
+        var a = Number(one.value);
+        var b = Number(two.value);
+        var total = a + b;
+        result.textContent = total;
+    }
+</script>
